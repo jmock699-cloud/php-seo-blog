@@ -23,7 +23,7 @@
                 $allTags = array_merge($allTags, $a['tags']);
             }
             foreach (array_unique($allTags) as $tg): ?>
-            <a href="<?= htmlspecialchars(url('tag', ['slug' => $tg])) ?>" class="tag">
+            <a href="<?= htmlspecialchars(url('tag', ['slug' => slugify($tg)])) ?>" class="tag">
                 <?= htmlspecialchars($tg) ?>
             </a>
             <?php endforeach; ?>

@@ -115,7 +115,7 @@
             <div class="article-tags">
                 <span><?= t('tags_label') ?></span>
                 <?php foreach ($article['tags'] as $tag): ?>
-                <a href="<?= htmlspecialchars(url('tag', ['slug' => $tag])) ?>"
+                <a href="<?= htmlspecialchars(url('tag', ['slug' => slugify($tag)])) ?>"
                    class="tag" rel="tag">
                     <?= htmlspecialchars($tag) ?>
                 </a>
@@ -126,11 +126,11 @@
             <!-- Author card -->
             <div class="author-card" itemscope itemtype="https://schema.org/Person">
                 <div class="author-avatar">
-                    <img src="/article-seo-one/assets/avatars/<?= htmlspecialchars($article['author']['slug']) ?>.jpg"
+                    <img src="<?= SITE_URL ?>/assets/avatars/<?= htmlspecialchars($article['author']['slug']) ?>.jpg"
                          alt="<?= htmlspecialchars($article['author']['name']) ?>"
                          width="60" height="60"
                          loading="lazy"
-                         onerror="this.src='/article-seo-one/assets/avatars/default.jpg'">
+                         onerror="this.src='<?= SITE_URL ?>/assets/avatars/default.jpg'">
                 </div>
                 <div class="author-info">
                     <strong itemprop="name"><?= htmlspecialchars($article['author']['name']) ?></strong>

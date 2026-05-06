@@ -67,6 +67,34 @@ return [
     'lang_ko'                => '한국어',
     'lang_ru'                => 'Русский',
 
+
+    // ── Archives / search
+    'hero_eyebrow'           => 'SEO-friendly publishing system',
+    'site_stats'             => 'Site statistics',
+    'published_articles'     => 'Published articles',
+    'topic_categories'       => 'Topic categories',
+    'featured_topics'        => 'Featured Topics',
+    'search_label'           => 'Search articles',
+    'search_placeholder'     => 'Search SEO, PHP, schema...',
+    'search_button'          => 'Search',
+    'search_eyebrow'         => 'Search',
+    'search_title'           => 'Search results for “%s”',
+    'search_desc'            => 'Found %2$d article(s) matching “%1$s”.',
+    'search_empty_title'     => 'Search articles',
+    'search_empty_desc'      => 'Enter a keyword to find relevant articles.',
+    'search_no_results'      => 'No matching articles were found. Try another keyword or browse all articles.',
+    'archive_category'       => 'Category archive',
+    'archive_tag'            => 'Tag archive',
+    'archive_author'         => 'Author archive',
+    'archive_category_title' => '%s Articles',
+    'archive_tag_title'      => 'Articles tagged %s',
+    'archive_author_title'   => 'Articles by %s',
+    'archive_category_desc'  => 'Browse %2$d article(s) in the %1$s category, including practical guides and related insights.',
+    'archive_tag_desc'       => 'Explore %2$d article(s) tagged %1$s with related SEO-friendly content.',
+    'archive_author_desc'    => 'Read %2$d article(s) written by %1$s.',
+    'no_articles_title'      => 'No articles yet',
+    'no_articles_desc'       => 'This archive does not contain any published articles yet.',
+
     // ── Share
     'share'                  => 'Share',
 ];

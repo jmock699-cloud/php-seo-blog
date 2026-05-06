@@ -53,8 +53,8 @@ $toc          = $tocResult['toc'];
 $bodyContent  = $tocResult['content'];
 
 // ── SEO ───────────────────────────────────────────────────────
-$pageTitle    = htmlspecialchars($article['title']) . ' | ' . SITE_NAME;
-$pageDesc     = htmlspecialchars($article['description']);
+$pageTitle    = $article['title'] . ' | ' . SITE_NAME;
+$pageDesc     = $article['description'];
 $canonicalUrl = url('article', ['slug' => $article['slug']]);
 $coverImage   = $article['cover'] ?: DEFAULT_OG_IMAGE;
 $publishedIso = $article['published_at'];
@@ -89,7 +89,7 @@ $schema = json_encode([
             ],
         ],
     ],
-], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
 // ── Render ────────────────────────────────────────────────────
 render('article', compact(

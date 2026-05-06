@@ -13,11 +13,11 @@
                        <?= ($activeNav ?? '') === 'home' ? 'aria-current="page"' : '' ?>>
                     <?= t('nav_home') ?>
                 </a></li>
-                <li><a href="<?= url('category', ['slug' => '']) ?>"
+                <li><a href="<?= url('home') ?>#topics"
                        <?= ($activeNav ?? '') === 'category' ? 'aria-current="page"' : '' ?>>
                     <?= t('nav_category') ?>
                 </a></li>
-                <li><a href="<?= url('author', ['slug' => '']) ?>"
+                <li><a href="<?= url('home') ?>#main-content"
                        <?= ($activeNav ?? '') === 'about' ? 'aria-current="page"' : '' ?>>
                     <?= t('nav_about') ?>
                 </a></li>

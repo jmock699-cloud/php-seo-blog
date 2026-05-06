@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<?= SITE_LANG ?>">
 <head>
-<?php partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'prevUrl', 'nextUrl', 'schema')) ?>
+<?php partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'prevUrl', 'nextUrl', 'schema', 'pageType', 'ogType', 'alternateUrls')) ?>
 </head>
 <body>
 

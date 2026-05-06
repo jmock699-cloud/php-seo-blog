@@ -6,6 +6,8 @@
     'pageDesc'       => $pageDesc,
     'canonicalUrl'   => $canonicalUrl,
     'schema'         => $schema,
+    'pageType'       => $pageType,
+    'alternateUrls'  => $alternateUrls,
     'robots'         => 'index, follow',
     'ogType'         => 'article',
     'ogImage'        => $coverImage,

@@ -6,6 +6,9 @@ $pageTitle = $pageTitle ?? t('404_title') . ' | ' . SITE_NAME;
 $pageDesc = $message ?? t('404_not_found');
 $canonicalUrl = url('home');
 $robots = 'noindex, nofollow';
+$pageType = 'error';
+$ogType = 'website';
+$alternateUrls = alternate_urls('home');
 $schema = json_encode([
     '@context' => 'https://schema.org',
     '@type' => 'WebPage',
@@ -13,7 +16,7 @@ $schema = json_encode([
     'description' => $pageDesc,
     'isPartOf' => ['@type' => 'WebSite', 'name' => SITE_NAME, 'url' => SITE_URL],
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema'));
+partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema', 'pageType', 'ogType', 'alternateUrls'));
 ?>
 </head>
 <body>

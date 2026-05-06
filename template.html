@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ══ 基础 SEO ══════════════════════════════════════════ -->
+    <title>文章标题 - 关键词 | 站点名称</title>
+    <meta name="description" content="文章摘要，建议 120-160 个字符，包含核心关键词，吸引点击。">
+    <meta name="keywords" content="关键词1, 关键词2, 关键词3">
+    <meta name="author" content="作者姓名">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/article/slug">
+
+    <!-- ══ Open Graph（Facebook / 微信分享）════════════════════ -->
+    <meta property="og:type"        content="article">
+    <meta property="og:title"       content="文章标题">
+    <meta property="og:description" content="文章摘要">
+    <meta property="og:image"       content="https://example.com/images/cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height"content="630">
+    <meta property="og:url"         content="https://example.com/article/slug">
+    <meta property="og:site_name"   content="站点名称">
+    <meta property="og:locale"      content="zh_CN">
+    <meta property="article:published_time" content="2026-05-06T08:00:00+08:00">
+    <meta property="article:modified_time"  content="2026-05-06T10:00:00+08:00">
+    <meta property="article:author"         content="作者姓名">
+    <meta property="article:tag"            content="标签1">
+
+    <!-- ══ Twitter Card ════════════════════════════════════════ -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="文章标题">
+    <meta name="twitter:description" content="文章摘要">
+    <meta name="twitter:image"       content="https://example.com/images/cover.jpg">
+
+    <!-- ══ Schema.org 结构化数据（JSON-LD）════════════════════ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "headline": "文章标题",
+                "description": "文章摘要",
+                "image": "https://example.com/images/cover.jpg",
+                "author": {
+                    "@type": "Person",
+                    "name": "作者姓名",
+                    "url": "https://example.com/author/name"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "站点名称",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://example.com/logo.png"
+                    }
+                },
+                "datePublished": "2026-05-06T08:00:00+08:00",
+                "dateModified": "2026-05-06T10:00:00+08:00",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://example.com/article/slug"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    { "@type": "ListItem", "position": 1, "name": "首页",   "item": "https://example.com/" },
+                    { "@type": "ListItem", "position": 2, "name": "分类",   "item": "https://example.com/category/" },
+                    { "@type": "ListItem", "position": 3, "name": "文章标题" }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <!-- ══ 性能优化 ═════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+
+<!-- ══ 顶部导航 ════════════════════════════════════════════════ -->
+<header class="site-header">
+    <div class="container">
+        <a class="logo" href="/">站点名称</a>
+        <nav aria-label="主导航">
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/category/">分类</a></li>
+                <li><a href="/about/">关于</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container main-wrap">
+    <main id="main-content">
+
+        <!-- 面包屑（SEO + 用户体验双重价值）-->
+        <nav class="breadcrumb" aria-label="面包屑导航">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="/"><span itemprop="name">首页</span></a>
+                    <meta itemprop="position" content="1">
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="/category/"><span itemprop="name">分类名</span></a>
+                    <meta itemprop="position" content="2">
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span itemprop="name">文章标题</span>
+                    <meta itemprop="position" content="3">
+                </li>
+            </ol>
+        </nav>
+
+        <!-- 文章主体 -->
+        <article class="article" itemscope itemtype="https://schema.org/Article">
+
+            <header class="article-header">
+                <!-- H1 全页面唯一，就是文章标题 -->
+                <h1 class="article-title" itemprop="headline">文章主标题（H1，包含核心关键词）</h1>
+
+                <div class="article-meta">
+                    <span class="author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                        作者：<a href="/author/name" itemprop="url"><span itemprop="name">作者姓名</span></a>
+                    </span>
+                    <time class="pub-date" datetime="2026-05-06T08:00:00+08:00" itemprop="datePublished">
+                        发布：2026-05-06
+                    </time>
+                    <time class="mod-date" datetime="2026-05-06T10:00:00+08:00" itemprop="dateModified">
+                        更新：2026-05-06
+                    </time>
+                    <span class="reading-time">阅读约 5 分钟</span>
+                </div>
+
+                <img class="article-cover"
+                     src="/images/cover.jpg"
+                     alt="文章封面描述（包含关键词，提升图片 SEO）"
+                     width="1200" height="630"
+                     itemprop="image"
+                     loading="lazy">
+            </header>
+
+            <!-- 目录（TOC，提升停留时间 + 锚链接有益 SEO）-->
+            <nav class="toc" aria-label="文章目录">
+                <p class="toc-title">目录</p>
+                <ol>
+                    <li><a href="#section-1">第一节标题</a></li>
+                    <li><a href="#section-2">第二节标题</a>
+                        <ol>
+                            <li><a href="#section-2-1">子标题</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#section-3">第三节标题</a></li>
+                </ol>
+            </nav>
+
+            <!-- 文章内容 -->
+            <div class="article-content" itemprop="articleBody">
+                <h2 id="section-1">第一节：H2 标题（包含长尾关键词）</h2>
+                <p>段落内容。内链示例：<a href="/article/related-slug">相关文章</a>。</p>
+
+                <h2 id="section-2">第二节：H2 标题</h2>
+                <h3 id="section-2-1">子章节 H3 标题</h3>
+                <p>段落内容。图片需包含 alt 属性：</p>
+                <figure>
+                    <img src="/images/example.jpg"
+                         alt="图片详细描述（含关键词）"
+                         width="800" height="450"
+                         loading="lazy">
+                    <figcaption>图片说明文字</figcaption>
+                </figure>
+
+                <h2 id="section-3">第三节：总结</h2>
+                <p>总结段落。</p>
+            </div>
+
+            <!-- 标签 -->
+            <div class="article-tags">
+                <a href="/tag/tag1" rel="tag">标签1</a>
+                <a href="/tag/tag2" rel="tag">标签2</a>
+            </div>
+
+        </article>
+
+        <!-- 相关文章（降低跳出率，增强内链） -->
+        <section class="related-articles">
+            <h2>相关文章</h2>
+            <ul>
+                <li><a href="/article/related-1">相关文章标题一</a></li>
+                <li><a href="/article/related-2">相关文章标题二</a></li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <section class="widget">
+            <h3>最新文章</h3>
+            <!-- ... -->
+        </section>
+        <section class="widget">
+            <h3>热门标签</h3>
+            <!-- ... -->
+        </section>
+    </aside>
+</div>
+
+<!-- 页脚 -->
+<footer class="site-footer">
+    <div class="container">
+        <p>&copy; 2026 站点名称</p>
+        <nav aria-label="页脚导航">
+            <a href="/sitemap.xml">Sitemap</a>
+            <a href="/privacy/">隐私政策</a>
+        </nav>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+Options -Indexes +FollowSymLinks
+RewriteEngine On
+RewriteBase /article-seo-one/
+
+# ── Static assets – pass through ──────────────────────────────
+RewriteRule ^assets/         -  [L,NC]
+RewriteRule ^favicon\.ico$   -  [L,NC]
+
+# ── PHP files – serve directly (prevents catch-all loop) ──────
+RewriteRule \.php$           -  [L,NC]
+
+# ── Clean-URL routing (active when PSEUDO_STATIC = true) ──────
+# Article detail:  /article/{slug}
+RewriteRule ^article/([^/]+)/?$          article.php?slug=$1  [L,QSA,NC]
+
+# Category archive: /category/{slug}
+RewriteRule ^category/([^/]+)/?$         index.php?category=$1  [L,QSA,NC]
+
+# Tag archive:      /tag/{slug}
+RewriteRule ^tag/([^/]+)/?$              index.php?tag=$1  [L,QSA,NC]
+
+# Author archive:   /author/{slug}
+RewriteRule ^author/([^/]+)/?$           index.php?author=$1  [L,QSA,NC]
+
+# Fallback: route everything else to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$                       index.php  [L,QSA]

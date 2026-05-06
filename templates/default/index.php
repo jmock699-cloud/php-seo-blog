@@ -5,83 +5,60 @@
 </head>
 <body>
 
-<!-- Reading progress bar -->
 <div id="reading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
 
 <?php partial('header', ['activeNav' => 'home']) ?>
 
+<section class="hero-section">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow"><?= t('hero_eyebrow') ?></p>
+            <h1><?= htmlspecialchars(SITE_NAME) ?></h1>
+            <p><?= htmlspecialchars(DEFAULT_DESCRIPTION) ?></p>
+            <form class="search-form" action="<?= SITE_URL ?>/search" method="get" role="search">
+                <label class="sr-only" for="site-search"><?= t('search_label') ?></label>
+                <input id="site-search" type="search" name="q" placeholder="<?= htmlspecialchars(t('search_placeholder')) ?>">
+                <button type="submit"><?= t('search_button') ?></button>
+            </form>
+        </div>
+        <div class="hero-panel" aria-label="<?= t('site_stats') ?>">
+            <strong><?= (int)$total ?></strong>
+            <span><?= t('published_articles') ?></span>
+            <strong><?= count($categories) ?></strong>
+            <span><?= t('topic_categories') ?></span>
+        </div>
+    </div>
+</section>
+
 <div class="container main-wrap">
     <main id="main-content">
+        <section id="topics" class="topic-strip" aria-label="<?= t('featured_topics') ?>">
+            <h2><?= t('featured_topics') ?></h2>
+            <div class="topic-links">
+                <?php foreach ($categories as $category): ?>
+                <a href="<?= htmlspecialchars(url('category', ['slug' => $category['slug']])) ?>">
+                    <?= htmlspecialchars($category['name']) ?> <span><?= (int)$category['count'] ?></span>
+                </a>
+                <?php endforeach; ?>
+                <?php foreach (array_slice($tags, 0, 6) as $tag): ?>
+                <a href="<?= htmlspecialchars(url('tag', ['slug' => $tag['slug']])) ?>">
+                    #<?= htmlspecialchars($tag['name']) ?> <span><?= (int)$tag['count'] ?></span>
+                </a>
+                <?php endforeach; ?>
+            </div>
+        </section>
 
-        <h1 class="list-title">
+        <h2 class="list-title">
             <?= $currentPage > 1 ? t('latest_articles_paged', $currentPage) : t('latest_articles') ?>
-        </h1>
+        </h2>
 
-        <!-- Article list -->
         <div class="article-list">
             <?php foreach ($articles as $a): ?>
-            <article class="article-card" itemscope itemtype="https://schema.org/Article">
-
-                <?php if (!empty($a['cover'])): ?>
-                <a href="<?= htmlspecialchars(url('article', ['slug' => $a['slug']])) ?>" class="card-cover-link">
-                    <img class="card-cover"
-                         src="<?= htmlspecialchars($a['cover']) ?>"
-                         alt="<?= htmlspecialchars($a['title']) ?>"
-                         width="800" height="420"
-                         loading="lazy"
-                         itemprop="image">
-                </a>
-                <?php endif; ?>
-
-                <div class="card-body">
-                    <div class="card-meta">
-                        <a class="card-category"
-                           href="<?= htmlspecialchars(url('category', ['slug' => $a['category']['slug']])) ?>">
-                            <?= htmlspecialchars($a['category']['name']) ?>
-                        </a>
-                        <time datetime="<?= $a['published_at'] ?>" itemprop="datePublished">
-                            <?= date('Y-m-d', strtotime($a['published_at'])) ?>
-                        </time>
-                        <span><?= t('min_read', reading_time($a['content'])) ?></span>
-                    </div>
-
-                    <h2 class="card-title" itemprop="headline">
-                        <a href="<?= htmlspecialchars(url('article', ['slug' => $a['slug']])) ?>">
-                            <?= htmlspecialchars($a['title']) ?>
-                        </a>
-                    </h2>
-
-                    <p class="card-excerpt" itemprop="description">
-                        <?= htmlspecialchars(excerpt($a['description'])) ?>
-                    </p>
-
-                    <div class="card-footer">
-                        <span class="card-author" itemprop="author"
-                              itemscope itemtype="https://schema.org/Person">
-                            <span itemprop="name"><?= htmlspecialchars($a['author']['name']) ?></span>
-                        </span>
-                        <a class="card-read-more"
-                           href="<?= htmlspecialchars(url('article', ['slug' => $a['slug']])) ?>">
-                            <?= t('read_more') ?>
-                        </a>
-                    </div>
-
-                    <div class="card-tags">
-                        <?php foreach ($a['tags'] as $tag): ?>
-                        <a href="<?= htmlspecialchars(url('tag', ['slug' => $tag])) ?>"
-                           class="tag" rel="tag">
-                            <?= htmlspecialchars($tag) ?>
-                        </a>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-            </article>
+                <?php partial('article-card', compact('a')) ?>
             <?php endforeach; ?>
         </div>
 
         <?php partial('pagination', compact('currentPage', 'totalPages')) ?>
-
     </main>
 
     <?php partial('sidebar') ?>
@@ -91,4 +68,3 @@
 
 </body>
 </html>
-

@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="<?= SITE_LANG ?>">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($pageTitle ?? t('404_title')) ?></title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="/article-seo-one/assets/style.css">
+<?php
+$pageTitle = $pageTitle ?? t('404_title') . ' | ' . SITE_NAME;
+$pageDesc = $message ?? t('404_not_found');
+$canonicalUrl = url('home');
+$robots = 'noindex, nofollow';
+$schema = json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebPage',
+    'name' => $pageTitle,
+    'description' => $pageDesc,
+    'isPartOf' => ['@type' => 'WebSite', 'name' => SITE_NAME, 'url' => SITE_URL],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema'));
+?>
 </head>
 <body>
-
 <?php partial('header') ?>
 
-<div class="container" style="padding:4rem 1.25rem; text-align:center;">
-    <h1 style="font-size:4rem; color:#e2e8f0; margin-bottom:1rem;">404</h1>
-    <p style="font-size:1.2rem; color:#64748b; margin-bottom:2rem;">
-        <?= htmlspecialchars($message ?? t('404_not_found')) ?>
-    </p>
-    <a href="<?= url('home') ?>" class="page-btn active"><?= t('404_back') ?></a>
+<div class="container">
+    <section class="empty-state not-found">
+        <p class="eyebrow"><?= t('404_title') ?></p>
+        <h1>404</h1>
+        <p><?= htmlspecialchars($message ?? t('404_not_found')) ?></p>
+        <form class="search-form search-form-wide" action="<?= SITE_URL ?>/search" method="get" role="search">
+            <label class="sr-only" for="not-found-search"><?= t('search_label') ?></label>
+            <input id="not-found-search" type="search" name="q" placeholder="<?= htmlspecialchars(t('search_placeholder')) ?>">
+            <button type="submit"><?= t('search_button') ?></button>
+        </form>
+        <a href="<?= url('home') ?>" class="page-btn active"><?= t('404_back') ?></a>
+    </section>
 </div>
 
 <?php partial('footer') ?>
-
 </body>
 </html>
-

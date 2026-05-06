@@ -255,6 +255,145 @@ function get_related_articles(string $slug, int $limit = 3): array
     return array_map('normalize_article', array_slice(array_values($all), 0, $limit));
 }
 
+
+function slugify(string $value): string
+{
+    $value = trim(mb_strtolower($value));
+    $value = preg_replace('/[^\p{L}\p{N}]+/u', '-', $value) ?? $value;
+    $value = trim($value, '-');
+    return $value !== '' ? $value : rawurlencode(trim($value));
+}
+
+function get_articles_by_category(string $slug, int $page = 1, int $perPage = PER_PAGE): array
+{
+    $all = array_values(array_filter(array_map('normalize_article', _all_articles()),
+        fn($a) => ($a['category']['slug'] ?? '') === $slug
+    ));
+    return paginate_articles($all, $page, $perPage);
+}
+
+function get_articles_by_tag(string $slug, int $page = 1, int $perPage = PER_PAGE): array
+{
+    $needle = mb_strtolower(rawurldecode($slug));
+    $all = array_values(array_filter(array_map('normalize_article', _all_articles()), function ($a) use ($needle) {
+        foreach (($a['tags'] ?? []) as $tag) {
+            if (mb_strtolower($tag) === $needle || slugify($tag) === $needle) {
+                return true;
+            }
+        }
+        return false;
+    }));
+    return paginate_articles($all, $page, $perPage);
+}
+
+function get_articles_by_author(string $slug, int $page = 1, int $perPage = PER_PAGE): array
+{
+    $all = array_values(array_filter(array_map('normalize_article', _all_articles()),
+        fn($a) => ($a['author']['slug'] ?? '') === $slug
+    ));
+    return paginate_articles($all, $page, $perPage);
+}
+
+function search_articles(string $query, int $page = 1, int $perPage = PER_PAGE): array
+{
+    $needle = mb_strtolower(trim($query));
+    if ($needle === '') {
+        return paginate_articles([], $page, $perPage);
+    }
+    $all = array_values(array_filter(array_map('normalize_article', _all_articles()), function ($a) use ($needle) {
+        $haystack = mb_strtolower(implode(' ', [
+            $a['title'] ?? '',
+            $a['description'] ?? '',
+            $a['keywords'] ?? '',
+            strip_tags($a['content'] ?? ''),
+            $a['category']['name'] ?? '',
+            implode(' ', $a['tags'] ?? []),
+            $a['author']['name'] ?? '',
+        ]));
+        return str_contains($haystack, $needle);
+    }));
+    return paginate_articles($all, $page, $perPage);
+}
+
+function paginate_articles(array $all, int $page = 1, int $perPage = PER_PAGE): array
+{
+    $total = count($all);
+    $totalPages = max(1, (int)ceil($total / $perPage));
+    $page = min(max(1, $page), $totalPages);
+    return [
+        'items'       => array_slice($all, ($page - 1) * $perPage, $perPage),
+        'total'       => $total,
+        'page'        => $page,
+        'per_page'    => $perPage,
+        'total_pages' => $totalPages,
+    ];
+}
+
+function get_category_label(string $slug): string
+{
+    foreach (array_map('normalize_article', _all_articles()) as $a) {
+        if (($a['category']['slug'] ?? '') === $slug) {
+            return $a['category']['name'];
+        }
+    }
+    return ucwords(str_replace('-', ' ', $slug));
+}
+
+
+function get_tag_label(string $slug): string
+{
+    $needle = mb_strtolower(rawurldecode($slug));
+    foreach (get_all_tags() as $tag) {
+        if (mb_strtolower($tag['name']) === $needle || $tag['slug'] === $needle) {
+            return $tag['name'];
+        }
+    }
+    return ucwords(str_replace('-', ' ', rawurldecode($slug)));
+}
+
+function get_author_label(string $slug): string
+{
+    foreach (array_map('normalize_article', _all_articles()) as $a) {
+        if (($a['author']['slug'] ?? '') === $slug) {
+            return $a['author']['name'];
+        }
+    }
+    return ucwords(str_replace('-', ' ', $slug));
+}
+
+function get_all_categories(): array
+{
+    $items = [];
+    foreach (array_map('normalize_article', _all_articles()) as $a) {
+        $slug = $a['category']['slug'] ?? '';
+        if ($slug === '') {
+            continue;
+        }
+        $items[$slug] = [
+            'slug' => $slug,
+            'name' => $a['category']['name'],
+            'count' => ($items[$slug]['count'] ?? 0) + 1,
+        ];
+    }
+    return array_values($items);
+}
+
+function get_all_tags(): array
+{
+    $items = [];
+    foreach (array_map('normalize_article', _all_articles()) as $a) {
+        foreach (($a['tags'] ?? []) as $tag) {
+            $slug = slugify($tag);
+            $items[$slug] = [
+                'slug' => $slug,
+                'name' => $tag,
+                'count' => ($items[$slug]['count'] ?? 0) + 1,
+            ];
+        }
+    }
+    return array_values($items);
+}
+
 /** Estimate reading time (~300 chars/min). */
 function reading_time(string $content): int
 {

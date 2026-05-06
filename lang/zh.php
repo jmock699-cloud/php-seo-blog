@@ -67,6 +67,33 @@ return [
     'lang_ko'                => '한국어',
     'lang_ru'                => 'Русский',
 
+    // ── 归档 / 搜索
+    'hero_eyebrow'           => 'SEO 友好的内容发布系统',
+    'site_stats'             => '站点数据',
+    'published_articles'     => '已发布文章',
+    'topic_categories'       => '主题分类',
+    'featured_topics'        => '精选主题',
+    'search_label'           => '搜索文章',
+    'search_placeholder'     => '搜索 SEO、PHP、结构化数据...',
+    'search_button'          => '搜索',
+    'search_eyebrow'         => '站内搜索',
+    'search_title'           => '“%s”的搜索结果',
+    'search_desc'            => '找到 %2$d 篇与“%1$s”相关的文章。',
+    'search_empty_title'     => '搜索文章',
+    'search_empty_desc'      => '输入关键词查找相关内容。',
+    'search_no_results'      => '暂未找到匹配文章，请尝试其他关键词或浏览全部文章。',
+    'archive_category'       => '分类归档',
+    'archive_tag'            => '标签归档',
+    'archive_author'         => '作者归档',
+    'archive_category_title' => '%s 相关文章',
+    'archive_tag_title'      => '%s 标签文章',
+    'archive_author_title'   => '%s 的文章',
+    'archive_category_desc'  => '浏览 %1$s 分类下的 %2$d 篇文章，包含实用指南与相关洞察。',
+    'archive_tag_desc'       => '探索 %1$s 标签下的 %2$d 篇 SEO 友好内容。',
+    'archive_author_desc'    => '阅读 %1$s 创作的 %2$d 篇文章。',
+    'no_articles_title'      => '暂无文章',
+    'no_articles_desc'       => '当前归档还没有已发布文章。',
+
     // ── 分享
     'share'                  => '分享',
 ];

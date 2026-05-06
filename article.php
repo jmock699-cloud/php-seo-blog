@@ -63,6 +63,8 @@ $publishedFmt = date('Y-m-d', strtotime($publishedIso));
 $updatedFmt   = date('Y-m-d', strtotime($updatedIso));
 $authorUrl    = url('author', ['slug' => $article['author']['slug']]);
 $categoryUrl  = url('category', ['slug' => $article['category']['slug']]);
+$pageType     = 'article';
+$alternateUrls = alternate_urls('article', ['slug' => $article['slug']]);
 
 $schema = json_encode([
     '@context' => 'https://schema.org',
@@ -93,7 +95,7 @@ $schema = json_encode([
 
 // ── Render ────────────────────────────────────────────────────
 render('article', compact(
-    'pageTitle', 'pageDesc', 'canonicalUrl', 'schema',
+    'pageTitle', 'pageDesc', 'canonicalUrl', 'schema', 'pageType', 'alternateUrls',
     'coverImage', 'publishedIso', 'updatedIso', 'publishedFmt', 'updatedFmt',
     'article', 'related', 'readTime', 'toc', 'bodyContent',
     'authorUrl', 'categoryUrl'

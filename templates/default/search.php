@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<?= SITE_LANG ?>">
 <head>
-<?php partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema')) ?>
+<?php partial('head', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema', 'pageType', 'ogType', 'alternateUrls')) ?>
 </head>
 <body>
 <div id="reading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>

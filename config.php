@@ -123,17 +123,29 @@ function url(string $type, array $params = []): string
                     . ($qs ? '?' . $qs : '');
 
             case 'category':
-                $qs = http_build_query($langParam);
+                $combined = array_merge(
+                    $langParam,
+                    ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+                );
+                $qs = http_build_query($combined);
                 return $base . '/category/' . rawurlencode($params['slug'] ?? '')
                     . ($qs ? '?' . $qs : '');
 
             case 'tag':
-                $qs = http_build_query($langParam);
+                $combined = array_merge(
+                    $langParam,
+                    ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+                );
+                $qs = http_build_query($combined);
                 return $base . '/tag/' . rawurlencode($params['slug'] ?? '')
                     . ($qs ? '?' . $qs : '');
 
             case 'author':
-                $qs = http_build_query($langParam);
+                $combined = array_merge(
+                    $langParam,
+                    ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+                );
+                $qs = http_build_query($combined);
                 return $base . '/author/' . rawurlencode($params['slug'] ?? '')
                     . ($qs ? '?' . $qs : '');
         }
@@ -167,6 +179,131 @@ function url(string $type, array $params = []): string
         }
     }
     return $base . '/';
+}
+
+
+/**
+ * Build an internal URL for a specific language. Used by hreflang tags so
+ * each page points to its true localized counterpart instead of the homepage.
+ */
+function url_for_lang(string $type, array $params, string $lang): string
+{
+    $base = SITE_URL;
+    $langParam = ($lang !== DEFAULT_LANG) ? ['lang' => $lang] : [];
+
+    if (PSEUDO_STATIC) {
+        switch ($type) {
+            case 'home':
+                $qs = http_build_query($langParam);
+                return $base . '/' . ($qs ? '?' . $qs : '');
+
+            case 'home_paged':
+                $p = (int)($params['page'] ?? 1);
+                if ($p <= 1) {
+                    $qs = http_build_query($langParam);
+                    return $base . '/' . ($qs ? '?' . $qs : '');
+                }
+                $qs = http_build_query(array_merge($langParam, ['page' => $p]));
+                return $base . '/?' . $qs;
+
+            case 'article':
+                $qs = http_build_query($langParam);
+                return $base . '/article/' . rawurlencode($params['slug'] ?? '')
+                    . ($qs ? '?' . $qs : '');
+
+            case 'category':
+                $combined = array_merge(
+                    $langParam,
+                    ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+                );
+                $qs = http_build_query($combined);
+                return $base . '/category/' . rawurlencode($params['slug'] ?? '')
+                    . ($qs ? '?' . $qs : '');
+
+            case 'tag':
+                $combined = array_merge(
+                    $langParam,
+                    ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+                );
+                $qs = http_build_query($combined);
+                return $base . '/tag/' . rawurlencode($params['slug'] ?? '')
+                    . ($qs ? '?' . $qs : '');
+
+            case 'author':
+                $combined = array_merge(
+                    $langParam,
+                    ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+                );
+                $qs = http_build_query($combined);
+                return $base . '/author/' . rawurlencode($params['slug'] ?? '')
+                    . ($qs ? '?' . $qs : '');
+
+            case 'search':
+                $combined = array_merge($langParam, array_filter(['q' => $params['q'] ?? ''], fn($v) => $v !== ''));
+                $qs = http_build_query($combined);
+                return $base . '/search' . ($qs ? '?' . $qs : '');
+        }
+    }
+
+    switch ($type) {
+        case 'home':
+            $qs = http_build_query($langParam);
+            return $base . '/' . ($qs ? '?' . $qs : '');
+
+        case 'home_paged':
+            $p = (int)($params['page'] ?? 1);
+            $combined = $p > 1 ? array_merge($langParam, ['page' => $p]) : $langParam;
+            $qs = http_build_query($combined);
+            return $base . '/' . ($qs ? '?' . $qs : '');
+
+        case 'article':
+            $qs = http_build_query(array_merge($langParam, ['slug' => $params['slug'] ?? '']));
+            return $base . '/article.php?' . $qs;
+
+        case 'category':
+            $combined = array_merge(
+                $langParam,
+                ['category' => $params['slug'] ?? ''],
+                ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+            );
+            $qs = http_build_query($combined);
+            return $base . '/?' . $qs;
+
+        case 'tag':
+            $combined = array_merge(
+                $langParam,
+                ['tag' => $params['slug'] ?? ''],
+                ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+            );
+            $qs = http_build_query($combined);
+            return $base . '/?' . $qs;
+
+        case 'author':
+            $combined = array_merge(
+                $langParam,
+                ['author' => $params['slug'] ?? ''],
+                ((int)($params['page'] ?? 1) > 1 ? ['page' => (int)$params['page']] : [])
+            );
+            $qs = http_build_query($combined);
+            return $base . '/?' . $qs;
+
+        case 'search':
+            $combined = array_merge($langParam, array_filter(['q' => $params['q'] ?? ''], fn($v) => $v !== ''));
+            $qs = http_build_query($combined);
+            return $base . '/search' . ($qs ? '?' . $qs : '');
+    }
+
+    return $base . '/';
+}
+
+/** Build hreflang URLs for a route. */
+function alternate_urls(string $type, array $params = []): array
+{
+    $urls = [];
+    foreach (AVAILABLE_LANGS as $lang) {
+        $urls[$lang] = url_for_lang($type, $params, $lang);
+    }
+    return $urls;
 }
 
 /**

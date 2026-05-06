@@ -68,6 +68,10 @@ function render_archive_page(string $archiveType, string $slug, int $page): void
     $prevUrl = $currentPage > 1 ? $baseArchiveUrl . (str_contains($baseArchiveUrl, '?') ? '&' : '?') . 'page=' . ($currentPage - 1) : null;
     $nextUrl = $currentPage < $totalPages ? $baseArchiveUrl . (str_contains($baseArchiveUrl, '?') ? '&' : '?') . 'page=' . ($currentPage + 1) : null;
 
+    $pageType = 'archive';
+    $ogType = 'website';
+    $alternateUrls = alternate_urls($archiveType, ['slug' => $slug, 'page' => $currentPage]);
+
     $schema = json_encode([
         '@context' => 'https://schema.org',
         '@type' => 'CollectionPage',
@@ -95,7 +99,7 @@ function render_archive_page(string $archiveType, string $slug, int $page): void
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
     render('archive', compact(
-        'pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'prevUrl', 'nextUrl', 'schema',
+        'pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'prevUrl', 'nextUrl', 'schema', 'pageType', 'ogType', 'alternateUrls',
         'articles', 'totalPages', 'total', 'currentPage', 'archiveType', 'archiveTitle', 'archiveDesc', 'label', 'slug', 'baseArchiveUrl'
     ));
 }
@@ -126,6 +130,10 @@ if (array_key_exists('q', $_GET)) {
     $pageDesc = $query !== '' ? t('search_desc', $query, $total) : t('search_empty_desc');
     $canonicalUrl = SITE_URL . '/search' . ($query !== '' ? '?q=' . rawurlencode($query) : '');
     $robots = 'noindex, follow';
+    $pageType = 'search';
+    $ogType = 'website';
+    $alternateUrls = alternate_urls('search', ['q' => $query]);
+
     $schema = json_encode([
         '@context' => 'https://schema.org',
         '@type' => 'SearchResultsPage',
@@ -134,7 +142,7 @@ if (array_key_exists('q', $_GET)) {
         'url' => $canonicalUrl,
         'isPartOf' => ['@type' => 'WebSite', 'name' => SITE_NAME, 'url' => SITE_URL],
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-    render('search', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema', 'articles', 'totalPages', 'total', 'currentPage', 'query'));
+    render('search', compact('pageTitle', 'pageDesc', 'canonicalUrl', 'robots', 'schema', 'pageType', 'ogType', 'alternateUrls', 'articles', 'totalPages', 'total', 'currentPage', 'query'));
     exit;
 }
 
@@ -158,6 +166,9 @@ $canonicalUrl = url('home_paged', ['page' => $currentPage]);
 $robots       = $currentPage > 1 ? 'noindex, follow' : 'index, follow';
 $prevUrl      = $currentPage > 1  ? url('home_paged', ['page' => $currentPage - 1]) : null;
 $nextUrl      = $currentPage < $totalPages ? url('home_paged', ['page' => $currentPage + 1]) : null;
+$pageType     = 'home';
+$ogType       = 'website';
+$alternateUrls = alternate_urls('home_paged', ['page' => $currentPage]);
 
 $schema = json_encode([
     '@context'        => 'https://schema.org',
@@ -195,6 +206,6 @@ $schema = json_encode([
 // ── Render ────────────────────────────────────────────────────
 render('index', compact(
     'pageTitle', 'pageDesc', 'canonicalUrl', 'robots',
-    'prevUrl',   'nextUrl',  'schema',
+    'prevUrl',   'nextUrl',  'schema', 'pageType', 'ogType', 'alternateUrls',
     'articles',  'totalPages', 'currentPage', 'total', 'categories', 'tags'
 ));

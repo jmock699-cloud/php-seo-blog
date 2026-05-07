@@ -25,6 +25,10 @@ return [
     'min_read'               => '%d min read',
     'prev_page'              => '« Previous',
     'next_page'              => 'Next »',
+    'load_more_articles'     => 'Load More Articles',
+    'loading_more_articles'  => 'Loading more articles...',
+    'all_articles_loaded'    => 'All articles loaded.',
+    'load_more_error'        => 'Unable to load more articles. Please try again.',
 
     // ── Article page
     'author_label'           => 'Author:',

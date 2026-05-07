@@ -52,11 +52,25 @@
             <?= $currentPage > 1 ? t('latest_articles_paged', $currentPage) : t('latest_articles') ?>
         </h2>
 
-        <div class="article-list">
+        <div class="article-list" data-load-more-list>
             <?php foreach ($articles as $a): ?>
                 <?php partial('article-card', compact('a')) ?>
             <?php endforeach; ?>
         </div>
+
+        <?php if ($currentPage < $totalPages): ?>
+        <div class="load-more-wrap" data-load-more data-current-page="<?= (int)$currentPage ?>" data-total-pages="<?= (int)$totalPages ?>">
+            <a class="load-more-btn"
+               href="<?= htmlspecialchars(url('home_paged', ['page' => $currentPage + 1])) ?>"
+               data-load-more-next
+               data-loading-label="<?= htmlspecialchars(t('loading_more_articles')) ?>"
+               data-complete-label="<?= htmlspecialchars(t('all_articles_loaded')) ?>"
+               data-error-label="<?= htmlspecialchars(t('load_more_error')) ?>">
+                <?= t('load_more_articles') ?>
+            </a>
+            <span class="load-more-status" data-load-more-status role="status" aria-live="polite"></span>
+        </div>
+        <?php endif; ?>
 
         <?php partial('pagination', compact('currentPage', 'totalPages')) ?>
     </main>

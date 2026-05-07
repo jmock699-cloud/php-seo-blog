@@ -25,6 +25,10 @@ return [
     'min_read'               => '%d 分钟阅读',
     'prev_page'              => '« 上一页',
     'next_page'              => '下一页 »',
+    'load_more_articles'     => '加载更多文章',
+    'loading_more_articles'  => '正在加载更多文章...',
+    'all_articles_loaded'    => '已加载全部文章。',
+    'load_more_error'        => '加载更多文章失败，请重试。',
 
     // ── 文章页
     'author_label'           => '作者：',

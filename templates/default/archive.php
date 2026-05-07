@@ -23,7 +23,7 @@
         </header>
 
         <?php if (!empty($articles)): ?>
-        <div class="article-list">
+        <div class="article-list" data-load-more-list>
             <?php foreach ($articles as $a): ?>
                 <?php partial('article-card', compact('a')) ?>
             <?php endforeach; ?>
@@ -33,6 +33,20 @@
             <h2><?= t('no_articles_title') ?></h2>
             <p><?= t('no_articles_desc') ?></p>
             <a class="page-btn active" href="<?= url('home') ?>"><?= t('view_all_articles') ?></a>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($currentPage < $totalPages): ?>
+        <div class="load-more-wrap" data-load-more data-current-page="<?= (int)$currentPage ?>" data-total-pages="<?= (int)$totalPages ?>">
+            <a class="load-more-btn"
+               href="<?= htmlspecialchars($baseArchiveUrl . (str_contains($baseArchiveUrl, '?') ? '&' : '?') . 'page=' . ($currentPage + 1)) ?>"
+               data-load-more-next
+               data-loading-label="<?= htmlspecialchars(t('loading_more_articles')) ?>"
+               data-complete-label="<?= htmlspecialchars(t('all_articles_loaded')) ?>"
+               data-error-label="<?= htmlspecialchars(t('load_more_error')) ?>">
+                <?= t('load_more_articles') ?>
+            </a>
+            <span class="load-more-status" data-load-more-status role="status" aria-live="polite"></span>
         </div>
         <?php endif; ?>
 
